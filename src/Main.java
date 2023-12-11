@@ -10,7 +10,11 @@ public class Main {
 
 
     public static void main(String[] args) {
-        simon.main(new String[0]);
+        MainMenu.main(new String[0]);
         //t.generate("C");
+    }
+
+    public void startGame(){
+        simon.main(new String[0]);
     }
 }

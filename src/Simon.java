@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder;
 import sun.audio.AudioPlayer;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,10 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.jfugue.player.Player;
@@ -21,6 +19,7 @@ import org.jfugue.player.Player;
 public class Simon implements ActionListener, MouseListener{
     public static Simon simon;
     public Renderer renderer;
+    JFrame frame;
     private final Timer timer;
     public Player p;
     public static final int WIDTH = 1200, HEIGHT = 1200, START = -8, END = -9, TIMEOUT = -7;
@@ -50,7 +49,7 @@ public class Simon implements ActionListener, MouseListener{
 
 
     public Simon(){
-        JFrame frame = new JFrame("Simon");
+        frame = new JFrame("Simon");
         timer = new Timer(125, this);
 
         renderer = new Renderer();
@@ -113,6 +112,7 @@ public class Simon implements ActionListener, MouseListener{
             gameOver = true;
             generateEndpointReport(uuid, TIMEOUT);
             generateEndpointReport(uuid, END);
+            JOptionPane.showMessageDialog(frame, "Game Over");
         }
 
         if (ticks % speed == 0){
@@ -264,6 +264,14 @@ public class Simon implements ActionListener, MouseListener{
                         /*System.out.println("Generating report (Testing)");*/
                     }
                     System.out.println("Report Complete (Testing)");
+
+
+                    //Close progam on dialog close
+                    Object[] options = {"Ok"};
+                    int ans = JOptionPane.showOptionDialog(frame, "Game over", "Simon", JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    if(ans == 0){
+                        frame.dispose();
+                    }
                     timer.stop();
                 }
             }
